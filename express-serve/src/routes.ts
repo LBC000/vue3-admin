@@ -4,7 +4,7 @@ import { TestController } from "./controller/TestController";
 export const Routes = [
   {
     method: "get",
-    route: "/v2/getMenuList",
+    route: "/getMenuList",
     controller: UserController,
     action: "getMenuList",
   },
