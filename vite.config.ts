@@ -26,7 +26,7 @@ export default defineApplicationConfig({
         },
 
         "/api": {
-          target: "http://localhost:3109",
+          target: "http://localhost:3109/api",
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(new RegExp(`^/api`), ""),

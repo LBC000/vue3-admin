@@ -1,3 +1,30 @@
+// 权限码
+let getPermCode = {
+  code: 0,
+  result: ["1000", "3000", "5000"],
+  message: "ok",
+  type: "success",
+};
+
+// 个人信息
+let getUserInfo = {
+  code: 0,
+  result: {
+    userId: "1",
+    username: "vben",
+    realName: "Vben Admin",
+    avatar: "",
+    desc: "manager",
+    password: "123456",
+    token: "fakeToken1",
+    homePath: "/dashboard/analysis",
+    roles: [{ roleName: "Super Admin", value: "super" }],
+  },
+  message: "ok",
+  type: "success",
+};
+
+// 菜单列表
 let getMenuList = {
   code: 0,
   result: [

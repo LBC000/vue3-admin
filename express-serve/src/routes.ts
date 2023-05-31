@@ -1,12 +1,46 @@
 import { UserController } from "./controller/UserController";
 import { TestController } from "./controller/TestController";
+import { AdminController } from "./controller/AdminController";
 
 export const Routes = [
+  // 获取菜单
   {
     method: "get",
     route: "/getMenuList",
-    controller: UserController,
+    controller: AdminController,
     action: "getMenuList",
+  },
+
+  // 获取个人信息
+  {
+    method: "get",
+    route: "/getUserInfo",
+    controller: AdminController,
+    action: "getUserInfo",
+  },
+
+  // 权限码
+  {
+    method: "get",
+    route: "/getPermCode",
+    controller: AdminController,
+    action: "getPermCode",
+  },
+
+  // 退出
+  {
+    method: "get",
+    route: "/logout",
+    controller: AdminController,
+    action: "logout",
+  },
+
+  // 登录
+  {
+    method: "post",
+    route: "/login",
+    controller: AdminController,
+    action: "login",
   },
 
   {
