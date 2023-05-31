@@ -9,3 +9,5 @@ git commit --no-verify -m "提交"
 
   启动 express-serve
     npm run watch-node
+
+切换 .env.development 文件下的 VITE_GLOB_API_URL 字段进行调试

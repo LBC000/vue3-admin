@@ -6,3 +6,12 @@ export const resFormatSuccess = (opt = {}) => {
     type: "success",
   };
 };
+
+export const resFormatError = (opt = {}) => {
+  return {
+    message: opt["message"] || "error",
+    code: opt["code"] || -1,
+    result: opt["data"] || null,
+    type: "error",
+  };
+};
