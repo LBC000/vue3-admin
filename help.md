@@ -2,6 +2,7 @@
 
 git add  .
 git commit --no-verify -m "提交"
+git push -u origin main
 
 
 启动步骤
