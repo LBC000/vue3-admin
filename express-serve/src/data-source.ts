@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
   port: 3306,
   username: "root",
   password: "root",
-  database: "express_ts_typeorm_test",
+  database: "vue3_admin_test",
   synchronize: true,
   logging: false,
   entities: ["src/entity/**/*.ts"],
