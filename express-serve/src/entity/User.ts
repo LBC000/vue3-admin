@@ -7,15 +7,30 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: number;
 
-  @Column()
+  @Column({ comment: "用户名" })
   username: string;
 
-  @Column()
+  @Column({ comment: "密码" })
   password: string;
 
-  @Column()
+  @Column({ comment: "类型" })
+  type: number;
+
+  @Column({ type: "text", comment: "角色" })
+  roles: string;
+
+  @Column({ comment: "昵称" })
+  nickname: string;
+
+  @Column({ comment: "电子邮箱" })
+  email: string;
+
+  @Column({ comment: "真名" })
   realName: string;
 
-  @Column()
+  @Column({ comment: "介绍" })
   desc: string;
+
+  @Column({ comment: "状态" })
+  status: number;
 }

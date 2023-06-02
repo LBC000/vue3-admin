@@ -83,6 +83,12 @@
           {{ t("sys.login.registerButton") }}
         </Button>
       </ACol>
+
+      <ACol :md="6" :xs="24">
+        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
+          {{ t("sys.login.registerButton") }}
+        </Button>
+      </ACol>
     </ARow>
 
     <Divider class="enter-x">{{ t("sys.login.otherSignIn") }}</Divider>
