@@ -17,6 +17,15 @@ export const mainOutRoutes: AppRouteModule[] = [
       ignoreAuth: true,
     },
   },
+  {
+    path: '/register-super-admin',
+    name: 'RegisterSuperAdmin',
+    component: () => import('/@/views/sys/register-super-admin/register-super-admin.vue'),
+    meta: {
+      title: 'RegisterSuperAdmin',
+      ignoreAuth: true,
+    },
+  },
 ];
 
 export const mainOutRouteNames = mainOutRoutes.map((item) => item.name);

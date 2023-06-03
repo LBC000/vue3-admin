@@ -13,9 +13,6 @@ export class User extends BaseEntity {
   @Column({ comment: "密码" })
   password: string;
 
-  @Column({ comment: "类型" })
-  type: number;
-
   @Column({ type: "text", comment: "角色" })
   roles: string;
 

@@ -234,6 +234,30 @@ let dataMenuList = [
       },
     ],
   },
+
+  // 测试
+  {
+    path: "/test",
+    name: "Test",
+    component: "LAYOUT",
+    redirect: "/test/index",
+    meta: {
+      icon: "simple-icons:about-dot-me",
+      title: "测试",
+      hideChildrenInMenu: true,
+    },
+    children: [
+      {
+        path: "index",
+        name: "TestPage",
+        component: "/sys/about/index.vue",
+        meta: {
+          title: "测试",
+          icon: "simple-icons:about-dot-me",
+        },
+      },
+    ],
+  },
 ];
 
 // 获取菜单-系统管理
