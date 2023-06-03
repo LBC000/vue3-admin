@@ -51,7 +51,10 @@
             class="p-4 enter-x"
             :model="formData"
             ref="formRef"
+            :rules="rulesRef"
             @keypress.enter="handleRegister"
+            @finish="onFinish"
+            @finishFailed="onFinishFailed"
           >
             <FormItem name="account" class="enter-x">
               <Input
@@ -66,7 +69,6 @@
             <FormItem name="password" class="enter-x">
               <InputPassword
                 size="large"
-                visibilityToggle
                 v-model:value="formData.password"
                 :placeholder="t('sys.login.password')"
                 :rules="[{ required: true, message: '请输入必填字段' }]"
@@ -76,7 +78,6 @@
             <FormItem name="password" class="enter-x">
               <InputPassword
                 size="large"
-                visibilityToggle
                v-model:value="formData.confirmPassword"
                :placeholder="t('sys.login.confirmPassword')"
                :rules="[{ required: true, message: '请输入必填字段' }]"
@@ -104,7 +105,7 @@
 <script lang="ts" setup>
   
   
-import { computed, reactive } from "vue";
+import { computed, reactive, toRaw } from "vue";
 import { AppLogo } from "/@/components/Application";
 import { AppLocalePicker } from "/@/components/Application";
 
@@ -146,6 +147,7 @@ const ACol = Col;
 const ARow = Row;
 const FormItem = Form.Item;
 const InputPassword = Input.Password;
+const useForm = Form.useForm;
 
 const formData = reactive({
   account: "",
@@ -153,9 +155,37 @@ const formData = reactive({
   confirmPassword: ''
 });
 
+const rulesRef = reactive({
+  account: [{
+    required: true,
+    message: '请输入必填字段',
+  }],
+  password: [{
+    required: true,
+    message: '请输入必填字段',
+  }],
+  confirmPassword: [{
+    required: true,
+    message: '请输入必填字段',
+  }],
+});
+
+
+const {
+  resetFields,
+  validate,
+  validateInfos,
+} = useForm(formData, rulesRef);
+
 const handleRegister = async () => {
+  validate().then(() => {
+    console.log(toRaw(formData), '成功');
+  }).catch(err => {
+    console.log('error', err);
+  });
   console.log('注册提交');
 }
+
 
 
 </script>
