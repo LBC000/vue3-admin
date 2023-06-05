@@ -91,32 +91,40 @@ export const Routes = [
     controller: AdminController,
     action: "login",
   },
-  // admin 结束
 
-  {
-    method: "get",
-    route: "/users",
-    controller: UserController,
-    action: "all",
-  },
-  {
-    method: "get",
-    route: "/users/:id",
-    controller: UserController,
-    action: "one",
-  },
+  // 注册超级管理员
   {
     method: "post",
-    route: "/users",
+    route: "/registerSuperAdmin",
     controller: UserController,
-    action: "save",
+    action: "registerSuperAdmin",
   },
-  {
-    method: "delete",
-    route: "/users/:id",
-    controller: UserController,
-    action: "remove",
-  },
+
+  // {
+  //   method: "get",
+  //   route: "/users",
+  //   controller: UserController,
+  //   action: "all",
+  // },
+  // {
+  //   method: "get",
+  //   route: "/users/:id",
+  //   controller: UserController,
+  //   action: "one",
+  // },
+  // {
+  //   method: "post",
+  //   route: "/users",
+  //   controller: UserController,
+  //   action: "save",
+  // },
+  // {
+  //   method: "delete",
+  //   route: "/users/:id",
+  //   controller: UserController,
+  //   action: "remove",
+  // },
+  // admin 结束
 
   // 测试
   {

@@ -54,9 +54,11 @@
             :model="formData"
             :rules="rulesRef"
             @keypress.enter="handleRegister"
+            @finish="onFinish"
+            @finishFailed="onFinishFailed"
           >
-          <!-- :rules="[{ required: true, message: '请输入必填字段3' }]" -->
-            <FormItem  name="account" class="enter-x" v-bind="validateInfos.account">
+            <FormItem name="account" class="enter-x">
+              <!-- :rules="[{ required: true, message: '请输入必填字段' }]" -->
               <Input
                 size="large"
                 v-model:value="formData.account"
@@ -65,19 +67,21 @@
               />
             </FormItem>
             
-            <FormItem name="password" class="enter-x" v-bind="validateInfos.password">
+            <FormItem name="password" class="enter-x">
               <InputPassword
                 size="large"
                 v-model:value="formData.password"
                 :placeholder="t('sys.login.password')"
+                :rules="[{ required: true, message: '请输入必填字段' }]"
               />
             </FormItem>
             
-            <FormItem name="confirmPassword" class="enter-x" v-bind="validateInfos.confirmPassword">
+            <FormItem name="password" class="enter-x">
               <InputPassword
                 size="large"
                v-model:value="formData.confirmPassword"
                :placeholder="t('sys.login.confirmPassword')"
+               :rules="[{ required: true, message: '请输入必填字段' }]"
               />
             </FormItem>
             
@@ -156,17 +160,14 @@ const rulesRef = reactive({
   account: [{
     required: true,
     message: '请输入必填字段',
-    trigger: ['change', 'blur'],
   }],
   password: [{
     required: true,
     message: '请输入必填字段',
-    trigger: ['change', 'blur'],
   }],
   confirmPassword: [{
     required: true,
     message: '请输入必填字段',
-    trigger: ['change', 'blur'],
   }],
 });
 
@@ -186,6 +187,13 @@ const handleRegister = async () => {
   console.log('注册提交');
 }
 
+function finish () {
+  console.log('finish');
+}
+
+function onFinishFailed () {
+  console.log('onFinishFailed');
+}
 
 
 

@@ -54,9 +54,13 @@
             :model="formData"
             :rules="rulesRef"
             @keypress.enter="handleRegister"
+            @finish="onFinish"
+            @finishFailed="onFinishFailed"
+            
+            name="basic"
+            autocomplete="off"
           >
-          <!-- :rules="[{ required: true, message: '请输入必填字段3' }]" -->
-            <FormItem  name="account" class="enter-x" v-bind="validateInfos.account">
+            <FormItem  name="account" class="enter-x" :rules="[{ required: true, message: '请输入必填字段' }]">
               <Input
                 size="large"
                 v-model:value="formData.account"
@@ -65,7 +69,7 @@
               />
             </FormItem>
             
-            <FormItem name="password" class="enter-x" v-bind="validateInfos.password">
+            <FormItem name="password" class="enter-x" :rules="[{ required: true, message: '请输入必填字段' }]">
               <InputPassword
                 size="large"
                 v-model:value="formData.password"
@@ -73,7 +77,7 @@
               />
             </FormItem>
             
-            <FormItem name="confirmPassword" class="enter-x" v-bind="validateInfos.confirmPassword">
+            <FormItem name="password" class="enter-x" :rules="[{ required: true, message: '请输入必填字段' }]">
               <InputPassword
                 size="large"
                v-model:value="formData.confirmPassword"
@@ -156,17 +160,14 @@ const rulesRef = reactive({
   account: [{
     required: true,
     message: '请输入必填字段',
-    trigger: ['change', 'blur'],
   }],
   password: [{
     required: true,
     message: '请输入必填字段',
-    trigger: ['change', 'blur'],
   }],
   confirmPassword: [{
     required: true,
     message: '请输入必填字段',
-    trigger: ['change', 'blur'],
   }],
 });
 
@@ -175,7 +176,7 @@ const {
   resetFields,
   validate,
   validateInfos,
-} = useForm(formData, rulesRef);
+} = useForm(formData);
 
 const handleRegister = async () => {
   validate().then(() => {
@@ -185,6 +186,15 @@ const handleRegister = async () => {
   });
   console.log('注册提交');
 }
+
+const onFinish = () => {
+  console.log('注册提交2');
+}
+const onFinishFailed = () => {
+  console.log('注册提交3');
+}
+
+
 
 
 

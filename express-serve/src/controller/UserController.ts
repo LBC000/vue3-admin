@@ -36,6 +36,26 @@ export class UserController {
     return this.userRepository.save(user);
   }
 
+  // 注册超级管理员
+  async registerSuperAdmin(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ) {
+    const { firstName, lastName, age } = request.body;
+    let count = await this.userRepository.count();
+
+    console.log(count, "数量1");
+
+    // const user = Object.assign(new User(), {
+    //   firstName,
+    //   lastName,
+    //   age,
+    // });
+
+    // return this.userRepository.save(user);
+  }
+
   async remove(request: Request, response: Response, next: NextFunction) {
     const id = parseInt(request.params.id);
 
