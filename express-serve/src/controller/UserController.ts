@@ -1,7 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
-import { resFormatSuccess } from "../utils/util";
+import { resFormatError, resFormatSuccess } from "../utils/util";
 
 export class UserController {
   private userRepository = AppDataSource.getRepository(User);
@@ -45,15 +45,30 @@ export class UserController {
     const { firstName, lastName, age } = request.body;
     let count = await this.userRepository.count();
 
+    return resFormatSuccess();
+
     console.log(count, "数量1");
+    if (count === 0) {
+      const user = Object.assign(new User(), {
+        firstName,
+        lastName,
+        age,
+      });
 
-    // const user = Object.assign(new User(), {
-    //   firstName,
-    //   lastName,
-    //   age,
-    // });
+      let res;
 
-    // return this.userRepository.save(user);
+      // res = await this.userRepository.save(user);
+
+      if (res) {
+        return resFormatSuccess();
+      } else {
+        return resFormatError();
+      }
+    } else {
+      return resFormatError();
+    }
+
+    return resFormatSuccess({ data: count });
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {

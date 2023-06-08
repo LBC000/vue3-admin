@@ -179,6 +179,9 @@ const {
 
 const handleRegister = async () => {
   validate().then(() => {
+    let data = toRaw(formData);
+    
+    
     console.log(toRaw(formData), '成功');
   }).catch(err => {
     console.log('error', err);

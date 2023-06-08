@@ -1392,6 +1392,9 @@ export class AdminController {
 
   // 获取菜单
   async getMenuList(request: Request, response: Response, next: NextFunction) {
+    console.log("菜单1");
+    // next();
+
     return resFormatSuccess({ data: dataMenuList });
   }
 

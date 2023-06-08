@@ -1,3 +1,5 @@
+const { celebrate, Joi, Segments } = require("celebrate");
+
 import { UserController } from "./controller/UserController";
 import { TestController } from "./controller/TestController";
 import { AdminController } from "./controller/AdminController";
@@ -98,6 +100,12 @@ export const Routes = [
     route: "/registerSuperAdmin",
     controller: UserController,
     action: "registerSuperAdmin",
+    // 验证
+    // celebrate: celebrate({
+    //   [Segments.BODY]: Joi.object().keys({
+    //     name: Joi.string().required(),
+    //   }),
+    // }),
   },
 
   // {
