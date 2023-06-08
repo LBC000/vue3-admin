@@ -36,7 +36,7 @@ Routes.forEach((route) => {
       );
       if (result instanceof Promise) {
         result.then((result) => {
-          console.log(result, "返回前");
+          // console.log(result, "返回前");
           if (result.code == -1) {
             return res.status(400).send(result);
           }
