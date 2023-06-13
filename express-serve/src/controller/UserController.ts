@@ -57,6 +57,7 @@ export class UserController {
       let user = new User();
       user.username = request.body.username;
       user.password = passwordHash;
+      user.nickname = generateId();
 
       let res;
 
@@ -69,6 +70,15 @@ export class UserController {
       }
     } else {
       return resFormatError({ msg: "超级管理员已注册" });
+    }
+
+    // 生成8个数字的随机id
+    function generateId() {
+      let id = "";
+      for (let i = 0; i < 8; i++) {
+        id += Math.floor(Math.random() * 10);
+      }
+      return id;
     }
   }
 

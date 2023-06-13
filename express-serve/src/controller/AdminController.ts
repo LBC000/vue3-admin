@@ -1423,6 +1423,12 @@ export class AdminController {
       roles: [{ roleName: "Super Admin", value: "super" }],
     };
 
+    // let user = await this.userRepository.findOne({
+    //   where: {
+    //     username: request.body.username,
+    //   },
+    // });
+
     return resFormatSuccess({ data: data });
   }
 
@@ -1500,10 +1506,10 @@ export class AdminController {
       let data = {
         roles: (user.roles && user.roles.split(",")) || [],
         userId: user.id,
-        username: "vben",
+        username: user.username,
         token: "fakeToken1",
-        realName: "Vben Admin",
-        desc: "manager",
+        nickname: user.nickname,
+        desc: "备注",
       };
 
       return resFormatSuccess({ data: data });
