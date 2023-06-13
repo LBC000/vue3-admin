@@ -100,6 +100,8 @@
   </Form>
 </template>
 <script lang="ts" setup>
+import sha256 from "crypto-js/sha512";
+
 import { reactive, ref, unref, computed } from "vue";
 
 import {
@@ -165,8 +167,11 @@ async function handleLogin() {
   if (!data) return;
   try {
     loading.value = true;
+
+    const hashPassword = sha256(`nonce-f;54%$fd#%hg$#-${data.password}`);
+
     const userInfo = await userStore.login({
-      password: data.password,
+      password: hashPassword.toString(),
       username: data.account,
       mode: "none", //不要默认的错误提示
     });
@@ -178,11 +183,11 @@ async function handleLogin() {
       });
     }
   } catch (error) {
+    console.log(error, "报错了1");
+
     createErrorModal({
       title: t("sys.api.errorTip"),
-      content:
-        ((error as unknown) as Error).message ||
-        t("sys.api.networkExceptionMsg"),
+      content: error.response.data.message || t("sys.api.networkExceptionMsg"),
       getContainer: () =>
         document.body.querySelector(`.${prefixCls}`) || document.body,
     });

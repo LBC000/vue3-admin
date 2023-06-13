@@ -2,6 +2,7 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User";
 import { resFormatError, resFormatSuccess } from "../utils/util";
+import { generateHash, verifyHash } from "../utils/encryptionUtils";
 
 export class UserController {
   private userRepository = AppDataSource.getRepository(User);
@@ -12,7 +13,7 @@ export class UserController {
   }
 
   async one(request: Request, response: Response, next: NextFunction) {
-    const id = parseInt(request.params.id);
+    const id = request.params.id;
 
     const user = await this.userRepository.findOne({
       where: { id },
@@ -43,36 +44,36 @@ export class UserController {
     next: NextFunction
   ) {
     const { firstName, lastName, age } = request.body;
+
     let count = await this.userRepository.count();
 
-    return resFormatSuccess();
-
-    console.log(count, "数量1");
     if (count === 0) {
-      const user = Object.assign(new User(), {
-        firstName,
-        lastName,
-        age,
-      });
+      let passwordHash = await generateHash(request.body.password, 10);
+
+      let verifyHashRes = await verifyHash(request.body.password, passwordHash);
+
+      console.log(count, request.body, verifyHashRes, "数量1");
+
+      let user = new User();
+      user.username = request.body.username;
+      user.password = passwordHash;
 
       let res;
 
-      // res = await this.userRepository.save(user);
+      res = await this.userRepository.save(user);
 
       if (res) {
         return resFormatSuccess();
       } else {
-        return resFormatError();
+        return resFormatError({ msg: "注册失败" });
       }
     } else {
-      return resFormatError();
+      return resFormatError({ msg: "超级管理员已注册" });
     }
-
-    return resFormatSuccess({ data: count });
   }
 
   async remove(request: Request, response: Response, next: NextFunction) {
-    const id = parseInt(request.params.id);
+    const id = request.params.id;
 
     let userToRemove = await this.userRepository.findOneBy({ id });
 

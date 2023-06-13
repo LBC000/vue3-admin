@@ -2,6 +2,8 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 
 import { resFormatError, resFormatSuccess } from "../utils/util";
+import { User } from "../entity/User";
+import { verifyHash } from "../utils/encryptionUtils";
 
 // 菜单数据
 let dataMenuList = [
@@ -1388,7 +1390,7 @@ let dataRoleListPage = {
 };
 
 export class AdminController {
-  // private userRepository = AppDataSource.getRepository(User);
+  private userRepository = AppDataSource.getRepository(User);
 
   // 获取菜单
   async getMenuList(request: Request, response: Response, next: NextFunction) {
@@ -1429,9 +1431,9 @@ export class AdminController {
     const { account } = request.body;
 
     if (account && account.indexOf("admin") !== -1) {
-      return resFormatError({ message: "该字段不能包含admin" });
+      return resFormatError({ msg: "该字段不能包含admin" });
     } else {
-      return resFormatSuccess({ message: `${account} can use` });
+      return resFormatSuccess({ msg: `${account} can use` });
     }
   }
 
@@ -1476,20 +1478,37 @@ export class AdminController {
 
   // 退出
   async logout(request: Request, response: Response, next: NextFunction) {
-    return resFormatSuccess({ message: "Token has been destroyed" });
+    return resFormatSuccess({ msg: "Token has been destroyed" });
   }
 
   // 登录
   async login(request: Request, response: Response, next: NextFunction) {
-    let data = {
-      roles: [{ roleName: "Super Admin", value: "super" }],
-      userId: "1",
-      username: "vben",
-      token: "fakeToken1",
-      realName: "Vben Admin",
-      desc: "manager",
-    };
+    let user = await this.userRepository.findOne({
+      where: {
+        username: request.body.username,
+      },
+    });
 
-    return resFormatSuccess({ data: data });
+    let verifyRes;
+    if (user) {
+      verifyRes = await verifyHash(request.body.password, user.password);
+    }
+
+    console.log(request.body, user, verifyRes, "参数1");
+
+    if (verifyRes) {
+      let data = {
+        roles: (user.roles && user.roles.split(",")) || [],
+        userId: user.id,
+        username: "vben",
+        token: "fakeToken1",
+        realName: "Vben Admin",
+        desc: "manager",
+      };
+
+      return resFormatSuccess({ data: data });
+    } else {
+      return resFormatError({ msg: "用户名或密码错误" });
+    }
   }
 }

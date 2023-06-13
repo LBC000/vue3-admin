@@ -22,34 +22,38 @@ app.use(bodyParser.json());
 let api_base_url = "/api";
 
 Routes.forEach((route) => {
-  (app as any)[route.method](
-    `${api_base_url}${route.route}`,
-    route["celebrate"] ||
-      celebrate({
-        [Segments.QUERY]: {},
-      }),
-    (req: Request, res: Response, next: Function) => {
-      const result = new (route.controller as any)()[route.action](
-        req,
-        res,
-        next
-      );
-      if (result instanceof Promise) {
-        result.then((result) => {
-          // console.log(result, "返回前");
-          if (result.code == -1) {
-            return res.status(400).send(result);
-          }
+  const cbFn = (req: Request, res: Response, next: Function) => {
+    const result = new (route.controller as any)()[route.action](
+      req,
+      res,
+      next
+    );
+    if (result instanceof Promise) {
+      result.then((result) => {
+        // console.log(result, "返回前");
+        if (result.code == -1) {
+          return res.status(400).send(result);
+        }
 
-          return result !== null && result !== undefined
-            ? res.send(result)
-            : undefined;
-        });
-      } else if (result !== null && result !== undefined) {
-        res.json(result);
-      }
+        return result !== null && result !== undefined
+          ? res.send(result)
+          : undefined;
+      });
+    } else if (result !== null && result !== undefined) {
+      res.json(result);
     }
-  );
+  };
+
+  // 判断 celebrate
+  if (route["celebrate"]) {
+    (app as any)[route.method](
+      `${api_base_url}${route.route}`,
+      route["celebrate"],
+      cbFn
+    );
+  } else {
+    (app as any)[route.method](`${api_base_url}${route.route}`, cbFn);
+  }
 });
 
 // router.get(

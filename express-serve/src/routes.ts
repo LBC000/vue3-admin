@@ -92,6 +92,13 @@ export const Routes = [
     route: "/login",
     controller: AdminController,
     action: "login",
+    // 验证
+    celebrate: celebrate({
+      [Segments.BODY]: Joi.object().keys({
+        username: Joi.string().required(),
+        password: Joi.string().required(),
+      }),
+    }),
   },
 
   // 注册超级管理员
@@ -101,11 +108,12 @@ export const Routes = [
     controller: UserController,
     action: "registerSuperAdmin",
     // 验证
-    // celebrate: celebrate({
-    //   [Segments.BODY]: Joi.object().keys({
-    //     name: Joi.string().required(),
-    //   }),
-    // }),
+    celebrate: celebrate({
+      [Segments.BODY]: Joi.object().keys({
+        username: Joi.string().required(),
+        password: Joi.string().required(),
+      }),
+    }),
   },
 
   // {

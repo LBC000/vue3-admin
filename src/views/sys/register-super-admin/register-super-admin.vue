@@ -42,57 +42,69 @@
             :class="`${prefixCls}-form`"
             class="relative w-full px-5 py-8 mx-auto my-auto rounded-md shadow-md xl:ml-16 xl:bg-transparent sm:px-8 xl:p-4 xl:shadow-none sm:w-3/4 lg:w-2/4 xl:w-auto enter-x"
           >
-          
-          <h2 class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left">
-            注册超级管理员
-          </h2>
-          
-          <!--  -->
-          <Form
-            class="p-4 enter-x"
-            ref="formRef"
-            :model="formData"
-            :rules="rulesRef"
-            @keypress.enter="handleRegister"
-          >
-          <!-- :rules="[{ required: true, message: '请输入必填字段3' }]" -->
-            <FormItem  name="account" class="enter-x" v-bind="validateInfos.account">
-              <Input
-                size="large"
-                v-model:value="formData.account"
-                :placeholder="t('超级管理员账号')"
-                class="fix-auto-fill"
-              />
-            </FormItem>
-            
-            <FormItem name="password" class="enter-x" v-bind="validateInfos.password">
-              <InputPassword
-                size="large"
-                v-model:value="formData.password"
-                :placeholder="t('sys.login.password')"
-              />
-            </FormItem>
-            
-            <FormItem name="confirmPassword" class="enter-x" v-bind="validateInfos.confirmPassword">
-              <InputPassword
-                size="large"
-               v-model:value="formData.confirmPassword"
-               :placeholder="t('sys.login.confirmPassword')"
-              />
-            </FormItem>
-            
-            <Button
-              type="primary"
-              class="enter-x"
-              size="large"
-              block
-              @click="handleRegister"
-              :loading="loading"
+            <h2
+              class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left"
             >
-              {{ t('sys.login.registerButton') }}
-            </Button>
-          </Form>
-          
+              注册超级管理员
+            </h2>
+
+            <!--  -->
+            <Form
+              class="p-4 enter-x"
+              ref="formRef"
+              :model="formData"
+              :rules="rulesRef"
+              @keypress.enter="handleRegister"
+            >
+              <!-- :rules="[{ required: true, message: '请输入必填字段3' }]" -->
+              <FormItem
+                name="account"
+                class="enter-x"
+                v-bind="validateInfos.account"
+              >
+                <Input
+                  size="large"
+                  v-model:value="formData.account"
+                  :placeholder="t('超级管理员账号')"
+                  class="fix-auto-fill"
+                />
+              </FormItem>
+
+              <FormItem
+                name="password"
+                class="enter-x"
+                v-bind="validateInfos.password"
+              >
+                <InputPassword
+                  size="large"
+                  v-model:value="formData.password"
+                  :placeholder="t('sys.login.password')"
+                />
+              </FormItem>
+
+              <FormItem
+                name="confirmPassword"
+                class="enter-x"
+                v-bind="validateInfos.confirmPassword"
+              >
+                <InputPassword
+                  size="large"
+                  v-model:value="formData.confirmPassword"
+                  :placeholder="t('sys.login.confirmPassword')"
+                />
+              </FormItem>
+
+              <Button
+                type="primary"
+                class="enter-x"
+                size="large"
+                block
+                @click="handleRegister"
+                :loading="loading"
+              >
+                {{ t("sys.login.registerButton") }}
+              </Button>
+            </Form>
           </div>
         </div>
       </div>
@@ -100,8 +112,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-  
-  
+import { registerSuperAdmin } from "/@/api/apis";
+import sha256 from "crypto-js/sha512";
+
 import { computed, reactive, toRaw } from "vue";
 import { AppLogo } from "/@/components/Application";
 import { AppLocalePicker } from "/@/components/Application";
@@ -125,6 +138,7 @@ import {
   Col,
   Button,
   Divider,
+  message,
 } from "ant-design-vue";
 
 defineProps({
@@ -149,53 +163,63 @@ const useForm = Form.useForm;
 const formData = reactive({
   account: "",
   password: "",
-  confirmPassword: ''
+  confirmPassword: "",
 });
 
 const rulesRef = reactive({
-  account: [{
-    required: true,
-    message: '请输入必填字段',
-    trigger: ['change', 'blur'],
-  }],
-  password: [{
-    required: true,
-    message: '请输入必填字段',
-    trigger: ['change', 'blur'],
-  }],
-  confirmPassword: [{
-    required: true,
-    message: '请输入必填字段',
-    trigger: ['change', 'blur'],
-  }],
+  account: [
+    {
+      required: true,
+      message: "请输入必填字段",
+      trigger: ["change", "blur"],
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "请输入必填字段",
+      trigger: ["change", "blur"],
+    },
+  ],
+  confirmPassword: [
+    {
+      required: true,
+      message: "请输入必填字段",
+      trigger: ["change", "blur"],
+    },
+  ],
 });
 
-
-const {
-  resetFields,
-  validate,
-  validateInfos,
-} = useForm(formData, rulesRef);
+const { resetFields, validate, validateInfos } = useForm(formData, rulesRef);
 
 const handleRegister = async () => {
-  validate().then(() => {
-    let data = toRaw(formData);
-    
-    
-    console.log(toRaw(formData), '成功');
-  }).catch(err => {
-    console.log('error', err);
-  });
-  console.log('注册提交');
-}
+  validate()
+    .then(() => {
+      let data = toRaw(formData);
 
+      if (data.password !== data.confirmPassword) {
+        return message.error("密码不一致");
+      }
 
+      const hashPassword = sha256(`nonce-f;54%$fd#%hg$#-${data.password}`);
 
+      registerSuperAdmin({
+        username: data.account,
+        password: hashPassword.toString(),
+      })
+        .then((res) => {})
+        .catch((err) => {
+          // console.log("错误2", err);
+        });
 
-
+      console.log(data, hashPassword.toString(), "成功");
+    })
+    .catch((err) => {
+      console.log("error", err);
+    });
+  console.log("注册提交");
+};
 </script>
-
-
 
 <style lang="less">
 @prefix-cls: ~"@{namespace}-login";
