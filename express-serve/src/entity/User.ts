@@ -3,18 +3,14 @@ import { BaseEntity } from "./base/baseEntity";
 
 @Entity()
 export class User extends BaseEntity {
-  // @PrimaryGeneratedColumn()
-  @PrimaryGeneratedColumn("uuid")
-  id;
-
   @Column({ comment: "用户名", unique: true, nullable: false })
   username: string;
 
   @Column({ comment: "密码", nullable: false })
   password: string;
 
-  @Column({ type: "text", comment: "角色", nullable: true })
-  roles: string;
+  @Column({ type: "simple-array", comment: "角色", nullable: true })
+  roles: string[];
 
   @Column({ comment: "昵称", nullable: true })
   nickname: string;

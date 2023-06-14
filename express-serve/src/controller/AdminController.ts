@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { resFormatError, resFormatSuccess } from "../utils/util";
 import { User } from "../entity/User";
 import { verifyHash } from "../utils/encryptionUtils";
+import { DeptList } from "../entity/DeptList";
 
 // 菜单数据
 let dataMenuList = [
@@ -1391,6 +1392,7 @@ let dataRoleListPage = {
 
 export class AdminController {
   private userRepository = AppDataSource.getRepository(User);
+  private deptListRepository = AppDataSource.getRepository(DeptList);
 
   // 获取菜单
   async getMenuList(request: Request, response: Response, next: NextFunction) {
@@ -1443,9 +1445,40 @@ export class AdminController {
     }
   }
 
+  // 新增部门
+  async addDept(request: Request, response: Response, next: NextFunction) {
+    try {
+      console.log(request.body, "参数");
+      let ent = new DeptList();
+
+      ent.deptName = request.body.deptName;
+      ent.orderNo = request.body.orderNo;
+      ent.status = request.body.status;
+      ent.remark = request.body.remark;
+      ent.parentDept = request.body.parentDept;
+
+      let res = await this.deptListRepository.save(ent);
+      return resFormatSuccess();
+    } catch (error) {
+      console.log(error.message, "错误1");
+      return resFormatError({ msg: error.message });
+    }
+  }
+
   // 获取部门列表
   async getDeptList(request: Request, response: Response, next: NextFunction) {
-    return resFormatSuccess({ data: dataDeptList });
+    try {
+      let res = await this.deptListRepository.findAndCount();
+      return resFormatSuccess({
+        data: {
+          list: res[0],
+          count: res[1],
+        },
+      });
+    } catch (error) {
+      console.log(error.message, "错误1");
+      return resFormatError({ msg: error.message });
+    }
   }
 
   // 获取角色列表
@@ -1504,7 +1537,7 @@ export class AdminController {
 
     if (verifyRes) {
       let data = {
-        roles: (user.roles && user.roles.split(",")) || [],
+        roles: user.roles || [],
         userId: user.id,
         username: user.username,
         token: "fakeToken1",

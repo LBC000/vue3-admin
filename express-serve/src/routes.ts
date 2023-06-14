@@ -116,6 +116,22 @@ export const Routes = [
     }),
   },
 
+  // 新增部门
+  {
+    method: "post",
+    route: "/addDept",
+    controller: AdminController,
+    action: "addDept",
+    // 验证
+    celebrate: celebrate({
+      [Segments.BODY]: Joi.object().keys({
+        deptName: Joi.string().required(),
+        orderNo: Joi.number().required(),
+        status: Joi.number().required(),
+      }),
+    }),
+  },
+
   // {
   //   method: "get",
   //   route: "/users",
