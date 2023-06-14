@@ -125,9 +125,26 @@ export const Routes = [
     // 验证
     celebrate: celebrate({
       [Segments.BODY]: Joi.object().keys({
+        id: Joi.string(),
+        remark: Joi.string().empty(""),
+        parentDept: Joi.string().empty(""),
         deptName: Joi.string().required(),
         orderNo: Joi.number().required(),
         status: Joi.number().required(),
+      }),
+    }),
+  },
+
+  // 删除部门
+  {
+    method: "post",
+    route: "/deleteDept",
+    controller: AdminController,
+    action: "deleteDept",
+    // 验证
+    celebrate: celebrate({
+      [Segments.BODY]: Joi.object().keys({
+        id: Joi.string().required(),
       }),
     }),
   },

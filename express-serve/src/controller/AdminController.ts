@@ -1445,7 +1445,7 @@ export class AdminController {
     }
   }
 
-  // 新增部门
+  // 新增 / 编辑 部门
   async addDept(request: Request, response: Response, next: NextFunction) {
     try {
       console.log(request.body, "参数");
@@ -1457,7 +1457,27 @@ export class AdminController {
       ent.remark = request.body.remark;
       ent.parentDept = request.body.parentDept;
 
+      if (request.body.id) {
+        ent.id = request.body.id;
+      }
+
       let res = await this.deptListRepository.save(ent);
+      return resFormatSuccess();
+    } catch (error) {
+      console.log(error.message, "错误1");
+      return resFormatError({ msg: error.message });
+    }
+  }
+
+  // 删除 部门
+  async deleteDept(request: Request, response: Response, next: NextFunction) {
+    try {
+      console.log(request.body, "参数");
+
+      let res = await this.deptListRepository.delete({
+        id: request.body.id,
+      });
+
       return resFormatSuccess();
     } catch (error) {
       console.log(error.message, "错误1");
@@ -1468,12 +1488,9 @@ export class AdminController {
   // 获取部门列表
   async getDeptList(request: Request, response: Response, next: NextFunction) {
     try {
-      let res = await this.deptListRepository.findAndCount();
+      let res = await this.deptListRepository.find();
       return resFormatSuccess({
-        data: {
-          list: res[0],
-          count: res[1],
-        },
+        data: res,
       });
     } catch (error) {
       console.log(error.message, "错误1");

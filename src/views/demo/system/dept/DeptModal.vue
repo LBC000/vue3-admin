@@ -4,6 +4,7 @@
     @register="registerModal"
     :title="getTitle"
     @ok="handleSubmit"
+    @visible-change="visibleChange"
   >
     <BasicForm @register="registerForm" />
   </BasicModal>
@@ -15,11 +16,10 @@ import { BasicForm, useForm } from "/@/components/Form/index";
 import { formSchema } from "./dept.data";
 
 import { getDeptList } from "/@/api/demo/system";
-import { addDept } from "/@/api/apis";
 export default defineComponent({
   name: "DeptModal",
   components: { BasicModal, BasicForm },
-  emits: ["success", "register"],
+  emits: ["success", "register", "visibleChange"],
   setup(_, { emit }) {
     const isUpdate = ref(true);
 
@@ -44,9 +44,7 @@ export default defineComponent({
             ...data.record,
           });
         }
-
         const treeData = await getDeptList();
-
         updateSchema({
           field: "parentDept",
           componentProps: { treeData },
@@ -62,28 +60,27 @@ export default defineComponent({
       try {
         const values = await validate();
         setModalProps({ confirmLoading: true });
-
-        // 新增
-        const addRes = await addDept({
-          ...values,
-          status: +values.status,
-        })
-          .then((res) => {
-            closeModal();
-            emit("success");
-            console.log(res, "成功");
-          })
-          .catch((err) => {
-            console.log(err, "失败");
-          });
-
-        console.log(values, addRes);
+        // TODO custom api
+        console.log(values);
+        closeModal();
+        emit("success", values);
       } finally {
         setModalProps({ confirmLoading: false });
       }
     }
 
-    return { registerModal, registerForm, getTitle, handleSubmit };
+    function visibleChange(e) {
+      // console.log("改版了1");
+      emit("visibleChange", e);
+    }
+
+    return {
+      registerModal,
+      registerForm,
+      getTitle,
+      handleSubmit,
+      visibleChange,
+    };
   },
 });
 </script>

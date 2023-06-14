@@ -26,16 +26,10 @@
         </template>
       </template>
     </BasicTable>
-    <DeptModal
-      @register="registerModal"
-      @success="handleSuccess"
-      @visibleChange="visibleChange"
-    />
+    <DeptModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
 <script lang="ts">
-import { addDept, deleteDept } from "/@/api/apis";
-
 import { defineComponent, ref } from "vue";
 
 import { BasicTable, useTable, TableAction } from "/@/components/Table";
@@ -93,48 +87,25 @@ export default defineComponent({
     }
 
     function handleDelete(record: Recordable) {
-      deleteDept({
-        id: record.id,
-      })
-        .then((res) => {
-          reload();
-        })
-        .catch((err) => {});
       console.log(record);
     }
 
-    function handleSuccess(values) {
+    function handleSuccess() {
       // 新增
-      let opt = {
-        ...values,
-        status: +values.status,
-      };
+      // const addRes = await addDept({
+      //   ...values,
+      //   status: +values.status,
+      // })
+      //   .then((res) => {
+      //     console.log(res, "成功");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err, "失败");
+      //   });
 
-      if (sItem.value.id) {
-        opt.id = sItem.value.id;
-      }
+      console.log(sItem.value, "handleSuccess");
 
-      addDept(opt)
-        .then((res) => {
-          console.log(res, "成功");
-        })
-        .catch((err) => {
-          console.log(err, "失败");
-        });
-
-      console.log(sItem.value, opt, "handleSuccess");
-
-      setTimeout(() => {
-        reload();
-      }, 500);
-    }
-
-    function visibleChange(e) {
-      if (e == false) {
-        sItem.value = {};
-      }
-
-      // console.log("visibleChange", e);
+      reload();
     }
 
     return {
@@ -144,7 +115,6 @@ export default defineComponent({
       handleEdit,
       handleDelete,
       handleSuccess,
-      visibleChange,
     };
   },
 });

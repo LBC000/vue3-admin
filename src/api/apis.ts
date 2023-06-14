@@ -6,6 +6,7 @@ import { ErrorMessageMode } from "/#/axios";
 enum Api {
   registerSuperAdmin = "/registerSuperAdmin",
   addDept = "/addDept",
+  deleteDept = "/deleteDept",
 }
 
 export function registerSuperAdmin(params, mode: ErrorMessageMode = "message") {
@@ -18,6 +19,13 @@ export function registerSuperAdmin(params, mode: ErrorMessageMode = "message") {
 export function addDept(params, mode: ErrorMessageMode = "message") {
   return defHttp.post(
     { url: Api.addDept, params },
+    { errorMessageMode: mode, successMessageMode: "message" }
+  );
+}
+
+export function deleteDept(params, mode: ErrorMessageMode = "message") {
+  return defHttp.post(
+    { url: Api.deleteDept, params },
     { errorMessageMode: mode, successMessageMode: "message" }
   );
 }
