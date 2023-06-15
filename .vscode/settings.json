@@ -63,7 +63,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "svipas.prettier-plus"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -92,7 +92,7 @@
       "source.fixAll.eslint": true,
       "source.fixAll.stylelint": true
     },
-    "editor.defaultFormatter": "svipas.prettier-plus"
+    "editor.defaultFormatter": "octref.vetur"
   },
   "i18n-ally.localesPaths": ["src/locales/lang"],
   "i18n-ally.keystyle": "nested",

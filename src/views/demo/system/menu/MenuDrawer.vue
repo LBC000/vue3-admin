@@ -58,7 +58,7 @@
           // TODO custom api
           console.log(values);
           closeDrawer();
-          emit('success');
+          emit('success', values);
         } finally {
           setDrawerProps({ confirmLoading: false });
         }

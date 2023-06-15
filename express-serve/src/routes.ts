@@ -1,97 +1,110 @@
-const { celebrate, Joi, Segments } = require("celebrate");
+const { celebrate, Joi, Segments } = require('celebrate');
 
-import { UserController } from "./controller/UserController";
-import { TestController } from "./controller/TestController";
-import { AdminController } from "./controller/AdminController";
+import { UserController } from './controller/UserController';
+import { TestController } from './controller/TestController';
+import { AdminController } from './controller/AdminController';
 
 export const Routes = [
   // admin 开始
   // 获取菜单
   {
-    method: "get",
-    route: "/getMenuList",
+    method: 'get',
+    route: '/getMenuList',
     controller: AdminController,
-    action: "getMenuList",
+    action: 'getMenuList',
   },
 
   // 获取菜单-系统
   {
-    method: "get",
-    route: "/system/getMenuList",
+    method: 'get',
+    route: '/system/getMenuList',
     controller: AdminController,
-    action: "systemGetMenuList",
+    action: 'systemGetMenuList',
+  },
+  // 新增或编辑菜单-系统
+  {
+    method: 'post',
+    route: '/system/addOrEditMenu',
+    controller: AdminController,
+    action: 'addOrEditMenu',
   },
 
   // 获取个人信息
   {
-    method: "get",
-    route: "/getUserInfo",
+    method: 'get',
+    route: '/getUserInfo',
     controller: AdminController,
-    action: "getUserInfo",
+    action: 'getUserInfo',
   },
 
   // 获取部门列表
   {
-    method: "get",
-    route: "/system/getDeptList",
+    method: 'get',
+    route: '/system/getDeptList',
     controller: AdminController,
-    action: "getDeptList",
+    action: 'getDeptList',
+    // 验证
+    [Segments.QUERY]: {
+      deptName: Joi.string().allow('', null),
+      status: Joi.number().allow('', null),
+      _t: Joi.string().allow('', null),
+    },
   },
 
   // 获取账号列表
   {
-    method: "get",
-    route: "/system/getAccountList",
+    method: 'get',
+    route: '/system/getAccountList',
     controller: AdminController,
-    action: "getAccountList",
+    action: 'getAccountList',
   },
 
   // 获取角色列表
   {
-    method: "get",
-    route: "/system/getAllRoleList",
+    method: 'get',
+    route: '/system/getAllRoleList',
     controller: AdminController,
-    action: "getAllRoleList",
+    action: 'getAllRoleList',
   },
 
   // 获取角色列表分页
   {
-    method: "get",
-    route: "/system/getRoleListByPage",
+    method: 'get',
+    route: '/system/getRoleListByPage',
     controller: AdminController,
-    action: "getRoleListByPage",
+    action: 'getRoleListByPage',
   },
 
   // 权限码
   {
-    method: "get",
-    route: "/getPermCode",
+    method: 'get',
+    route: '/getPermCode',
     controller: AdminController,
-    action: "getPermCode",
+    action: 'getPermCode',
   },
 
   // 检测用户名
   {
-    method: "post",
-    route: "/system/accountExist",
+    method: 'post',
+    route: '/system/accountExist',
     controller: AdminController,
-    action: "accountExist",
+    action: 'accountExist',
   },
 
   // 退出
   {
-    method: "get",
-    route: "/logout",
+    method: 'get',
+    route: '/logout',
     controller: AdminController,
-    action: "logout",
+    action: 'logout',
   },
 
   // 登录
   {
-    method: "post",
-    route: "/login",
+    method: 'post',
+    route: '/login',
     controller: AdminController,
-    action: "login",
+    action: 'login',
     // 验证
     celebrate: celebrate({
       [Segments.BODY]: Joi.object().keys({
@@ -103,10 +116,10 @@ export const Routes = [
 
   // 注册超级管理员
   {
-    method: "post",
-    route: "/registerSuperAdmin",
+    method: 'post',
+    route: '/registerSuperAdmin',
     controller: UserController,
-    action: "registerSuperAdmin",
+    action: 'registerSuperAdmin',
     // 验证
     celebrate: celebrate({
       [Segments.BODY]: Joi.object().keys({
@@ -118,16 +131,16 @@ export const Routes = [
 
   // 新增部门
   {
-    method: "post",
-    route: "/addDept",
+    method: 'post',
+    route: '/addDept',
     controller: AdminController,
-    action: "addDept",
+    action: 'addDept',
     // 验证
     celebrate: celebrate({
       [Segments.BODY]: Joi.object().keys({
         id: Joi.string(),
-        remark: Joi.string().empty(""),
-        parentDept: Joi.string().empty(""),
+        remark: Joi.string().allow('', null),
+        parentDept: Joi.string().allow('', null),
         deptName: Joi.string().required(),
         orderNo: Joi.number().required(),
         status: Joi.number().required(),
@@ -137,10 +150,10 @@ export const Routes = [
 
   // 删除部门
   {
-    method: "post",
-    route: "/deleteDept",
+    method: 'post',
+    route: '/deleteDept',
     controller: AdminController,
-    action: "deleteDept",
+    action: 'deleteDept',
     // 验证
     celebrate: celebrate({
       [Segments.BODY]: Joi.object().keys({
@@ -177,9 +190,9 @@ export const Routes = [
 
   // 测试
   {
-    method: "get",
-    route: "/test/getList",
+    method: 'get',
+    route: '/test/getList',
     controller: TestController,
-    action: "getList",
+    action: 'getList',
   },
 ];
