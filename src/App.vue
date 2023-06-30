@@ -19,3 +19,10 @@
   // Listening to page changes and dynamically changing site titles
   useTitle();
 </script>
+
+<style lang="less">
+  // bootstrap 和 ant design 冲突，导致图标移位
+  body .anticon {
+    transform: translate(-0.5px, 3px);
+  }
+</style>
