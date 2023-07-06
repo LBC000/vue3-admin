@@ -5,18 +5,27 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
-} from "typeorm";
+} from 'typeorm';
 
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
 
 export class BaseEntity {
-  @PrimaryColumn({ length: 21 })
-  id: string;
-
   @BeforeInsert()
   private beforeInsert() {
     this.id = nanoid();
   }
+  @PrimaryColumn({ length: 21 })
+  id: string;
+
+  // @PrimaryColumn('varchar', {
+  //   length: 21,
+  // })
+  // id: string;
+
+  // @BeforeInsert()
+  // setId() {
+  //   this.id = nanoid();
+  // }
 
   // @PrimaryGeneratedColumn("uuid")
   // id;

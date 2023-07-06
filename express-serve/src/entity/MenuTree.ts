@@ -3,11 +3,11 @@ import { BaseEntity } from './base/baseEntity';
 
 @Entity()
 export class MenuTree extends BaseEntity {
-  @Index()
+  @Index('MenuTree-menuDataId')
   @Column({ comment: '菜单id', unique: true, nullable: false })
   menuDataId: string;
 
-  @Index()
+  @Index('MenuTree-parentMenu')
   @Column({ comment: '上级菜单id', nullable: true })
   parentMenu: string;
 

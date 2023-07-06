@@ -39,7 +39,7 @@ let dataMenuList = [
         name: 'Workbench',
         component: '/dashboard/workbench/index',
         meta: {
-          hideMenu: true,
+          // hideMenu: true,
           hideBreadcrumb: true,
           title: 'routes.dashboard.workbench',
           currentActiveMenu: '/dashboard',
@@ -217,6 +217,7 @@ let dataMenuList = [
       },
     ],
   },
+
   {
     path: '/about',
     name: 'About',
@@ -242,12 +243,12 @@ let dataMenuList = [
     ],
   },
 
-  // 测试
+  // 测试 (单页面)
   {
     path: '/test',
     name: 'Test',
     component: 'LAYOUT',
-    redirect: '/test/index',
+    redirect: '/test/test-page',
     meta: {
       icon: 'simple-icons:about-dot-me',
       title: '测试',
@@ -255,12 +256,41 @@ let dataMenuList = [
     },
     children: [
       {
-        path: 'index',
-        name: 'TestPage',
+        path: 'test-page',
+        name: 'test-page',
         component: '/sys/about/index.vue',
         meta: {
           title: '测试',
+          currentActiveMenu: '/test',
           icon: 'simple-icons:about-dot-me',
+        },
+      },
+    ],
+  },
+
+  // 隐藏页
+  {
+    path: '/test2',
+    name: 'Test2',
+    component: 'LAYOUT',
+    redirect: '/test2/t2',
+    meta: {
+      title: '测试2',
+      hideChildrenInMenu: true,
+      icon: 'bx:bx-home',
+      hideMenu: true,
+    },
+    children: [
+      {
+        path: 't2',
+        name: 'T2',
+        component: '/dashboard/workbench/index',
+        meta: {
+          // hideMenu: true,
+          hideBreadcrumb: true,
+          title: '测试2',
+          currentActiveMenu: '/test2',
+          icon: 'bx:bx-home',
         },
       },
     ],
@@ -1305,6 +1335,18 @@ export class AdminController {
       res = await this.menuTreeRepository.save(net);
 
       return resFormatSuccess({ data: [] });
+    } catch (error) {
+      return resFormatError({ msg: error.message });
+    }
+  }
+
+  // 删除菜单 -系统管理
+  async deleteMenu(request: Request, response: Response, next: NextFunction) {
+    try {
+      console.log(request.body, '参数');
+      // console.log(net, 'net');
+
+      return resFormatSuccess();
     } catch (error) {
       return resFormatError({ msg: error.message });
     }

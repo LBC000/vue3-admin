@@ -28,6 +28,13 @@ export const Routes = [
     controller: AdminController,
     action: 'addOrEditMenu',
   },
+  // 删除菜单-系统
+  {
+    method: 'post',
+    route: '/system/deleteMenu',
+    controller: AdminController,
+    action: 'deleteMenu',
+  },
 
   // 获取个人信息
   {

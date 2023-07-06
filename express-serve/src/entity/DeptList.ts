@@ -3,7 +3,7 @@ import { BaseEntity } from './base/baseEntity';
 
 @Entity()
 export class DeptList extends BaseEntity {
-  @Index()
+  @Index('DeptList-deptName')
   @Column({ comment: '部门名称', unique: true, nullable: false })
   deptName: string;
 
@@ -13,7 +13,7 @@ export class DeptList extends BaseEntity {
   @Column({ comment: '备注', nullable: true })
   remark: string;
 
-  @Index()
+  @Index('DeptList-status')
   @Column({ comment: '状态', length: 50 })
   status: string;
 

@@ -37,3 +37,10 @@ export function addOrEditMenu(params, mode: ErrorMessageMode = 'message') {
     { errorMessageMode: mode, successMessageMode: 'message' },
   );
 }
+
+export function deleteMenu(params, mode: ErrorMessageMode = 'message') {
+  return defHttp.post(
+    { url: Api.deleteMenu, params },
+    { errorMessageMode: mode, successMessageMode: 'message' },
+  );
+}
