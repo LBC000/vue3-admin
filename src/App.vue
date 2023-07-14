@@ -23,6 +23,6 @@
 <style lang="less">
   // bootstrap 和 ant design 冲突，导致图标移位
   body .anticon {
-    transform: translate(-0.5px, 3px);
+    transform: translate(-0.5px, 5px);
   }
 </style>

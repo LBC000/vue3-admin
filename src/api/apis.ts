@@ -8,6 +8,7 @@ enum Api {
   addDept = '/addDept',
   deleteDept = '/deleteDept',
   addOrEditMenu = '/system/addOrEditMenu',
+  deleteMenu = '/system/deleteMenu',
 }
 
 export function registerSuperAdmin(params, mode: ErrorMessageMode = 'message') {

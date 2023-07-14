@@ -1298,8 +1298,6 @@ export class AdminController {
   // 获取菜单-系统管理
   async systemGetMenuList(request: Request, response: Response, next: NextFunction) {
     try {
-      console.log(request.body, '参数');
-
       let res = await this.menuTreeRepository.find();
 
       return resFormatSuccess({ data: res });
@@ -1329,7 +1327,6 @@ export class AdminController {
       net = Object.assign(net, request.body);
       net.menuDataId = shortid.generate();
 
-      console.log(request.body, '参数');
       // console.log(net, 'net');
 
       res = await this.menuTreeRepository.save(net);
@@ -1343,10 +1340,18 @@ export class AdminController {
   // 删除菜单 -系统管理
   async deleteMenu(request: Request, response: Response, next: NextFunction) {
     try {
-      console.log(request.body, '参数');
       // console.log(net, 'net');
+      console.log(request.body, request.body.id, '参数-deleteMenu-1');
+      let res = await this.menuTreeRepository.delete({
+        id: request.body.id,
+      });
 
-      return resFormatSuccess();
+      console.log(request.body, res, request.body.id, '参数');
+      if (res) {
+        return resFormatSuccess();
+      } else {
+        return resFormatError();
+      }
     } catch (error) {
       return resFormatError({ msg: error.message });
     }

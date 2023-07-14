@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { addOrEditMenu } from '/@/api/apis';
+  import { addOrEditMenu, deleteMenu } from '/@/api/apis';
 
   import { defineComponent, nextTick } from 'vue';
 
@@ -82,7 +82,15 @@
   }
 
   function handleDelete(record: Recordable) {
-    console.log(record);
+
+    deleteMenu({
+      id: record.id
+    })
+      .then((res) => {})
+      .catch((err) => {});
+
+      reload();
+    console.log(record, '删除');
   }
 
   function handleSuccess(values) {
